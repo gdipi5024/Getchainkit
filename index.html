@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>CHAIN — Every Step, Documented.</title>
+<style>html,body{background:#0a0a0a !important;color:#f5f3ee !important;}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f3ee;
+    --ice: #e8f0f7;
+    --cold: #b8d4e8;
+    --frost: #4a8ab5;
+    --steel: #2c5f7a;
+    --accent: #00bfa5;
+    --warn: #e8634a;
+    --mid: #8a9aaa;
+    --grid: rgba(74,138,181,0.08);
+  }
+
+- { margin: 0; padding: 0; box-sizing: border-box; max-width: 100%; }
+
+html { scroll-behavior: smooth; background: #0a0a0a; }
+
+body {
+background: #0a0a0a;
+color: #f5f3ee;
+font-family: ‘DM Sans’, -apple-system, BlinkMacSystemFont, ‘Helvetica Neue’, Arial, sans-serif;
+overflow-x: hidden;
+max-width: 100vw;
+}
+
+/* ── NOISE OVERLAY ── */
+body::before {
+content: ‘’;
+position: fixed;
+inset: 0;
+background-image: url(“data:image/svg+xml,%3Csvg viewBox=‘0 0 256 256’ xmlns=‘http://www.w3.org/2000/svg’%3E%3Cfilter id=‘noise’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=‘0.9’ numOctaves=‘4’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘100%25’ height=‘100%25’ filter=‘url(%23noise)’ opacity=‘0.035’/%3E%3C/svg%3E”);
+pointer-events: none;
+z-index: 1000;
+opacity: 0.4;
+}
+
+/* ── NAV ── */
+nav {
+position: fixed;
+top: 0; left: 0; right: 0;
+z-index: 100;
+padding: 20px 48px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+background: linear-gradient(to bottom, rgba(10,10,10,0.95), transparent);
+}
+
+.nav-logo {
+font-family: ‘Bebas Neue’, ‘Arial Black’, Impact, sans-serif;
+font-size: 28px;
+letter-spacing: 6px;
+color: #f5f3ee;
+text-decoration: none;
+}
+
+.nav-logo span {
+color: #00bfa5;
+}
+
+.nav-cta {
+font-family: ‘DM Mono’, ‘Courier New’, Courier, monospace;
+font-size: 11px;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: #0a0a0a;
+background: #00bfa5;
+padding: 10px 24px;
+text-decoration: none;
+transition: all 0.2s;
+}
+
+.nav-cta:hover {
+background: #f5f3ee;
+transform: translateY(-1px);
+}
+
+/* ── HERO ── */
+.hero {
+min-height: 100vh;
+display: grid;
+grid-template-columns: 1fr 1fr;
+position: relative;
+overflow: hidden;
+max-width: 100vw;
+}
+
+.hero-left {
+padding: 100px 24px 60px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+position: relative;
+z-index: 2;
+overflow: hidden;
+}
+
+.hero-eyebrow {
+white-space: normal;
+word-break: break-word;
+font-family: ‘DM Mono’, ‘Courier New’, Courier, monospace;
+font-size: 10px;
+letter-spacing: 4px;
+text-transform: uppercase;
+color: #00bfa5;
+margin-bottom: 24px;
+opacity: 1;
+}
+
+.hero-title {
+font-family: ‘Bebas Neue’, ‘Arial Black’, Impact, sans-serif;
+font-size: clamp(42px, 11vw, 140px);
+line-height: 0.9;
+letter-spacing: 2px;
+color: #f5f3ee;
+opacity: 1;
+}
+
+.hero-title .accent-line {
+color: #00bfa5;
+display: block;
+}
+
+.hero-sub {
+margin-top: 32px;
+font-size: 18px;
+font-weight: 300;
+line-height: 1.6;
+color: #b8d4e8;
+max-width: 440px;
+opacity: 1;
+}
+
+.hero-actions {
+margin-top: 48px;
+display: flex;
+align-items: center;
+gap: 24px;
+opacity: 1;
+}
+
+.btn-primary {
+font-family: ‘DM Mono’, ‘Courier New’, Courier, monospace;
+font-size: 12px;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: #0a0a0a;
+background: #00bfa5;
+padding: 16px 36px;
+text-decoration: none;
+display: inline-block;
+transition: all 0.25s;
+position: relative;
+}
+
+.btn-primary::after {
+content: ‘’;
+position: absolute;
+inset: 3px;
+border: 1px solid rgba(255,255,255,0.2);
+pointer-events: none;
+}
+
+.btn-primary:hover {
+background: #f5f3ee;
+transform: translate(-2px, -2px);
+box-shadow: 4px 4px 0 #00bfa5;
+}
+
+.btn-ghost {
+font-family: ‘DM Mono’, ‘Courier New’, Courier, monospace;
+font-size: 11px;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: #8a9aaa;
+text-decoration: none;
+border-bottom: 1px solid #8a9aaa;
+padding-bottom: 2px;
+transition: color 0.2s;
+}
+
+.btn-ghost:hover { color: #f5f3ee; }
+
+/* ── HERO RIGHT — BOX VISUAL ── */
+.hero-right {
+position: relative;
+display: flex;
+align-items: center;
+justify-content: center;
+overflow: hidden;
+}
+
+.hero-bg-grid {
+position: absolute;
+inset: 0;
+background-image:
+linear-gradient(rgba(74,138,181,0.08) 1px, transparent 1px),
+linear-gradient(90deg, rgba(74,138,181,0.08) 1px, transparent 1px);
+background-size: 40px 40px;
+}
+
+.hero-bg-glow {
+position: absolute;
+width: 500px;
+height: 500px;
+background: radial-gradient(circle, rgba(0,194,168,0.12) 0%, transparent 70%);
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+}
+
+.kit-visual {
+position: relative;
+z-index: 2;
+opacity: 1;
+}
+
+/* Isometric box */
+.iso-box {
+width: 260px;
+height: 260px;
+position: relative;
+transform: rotateX(30deg) rotateY(-30deg) rotateZ(5deg);
+transform-style: preserve-3d;
+animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+0%, 100% { transform: rotateX(30deg) rotateY(-30deg) rotateZ(5deg) translateY(0); }
+50% { transform: rotateX(30deg) rotateY(-30deg) rotateZ(5deg) translateY(-16px); }
+}
+
+.box-face {
+position: absolute;
+width: 200px;
+height: 200px;
+}
+
+.box-top {
+background: linear-gradient(135deg, #1a3a4a, #0d2535);
+border: 1px solid rgba(0,194,168,0.3);
+transform: rotateX(90deg) translateZ(100px);
+display: flex;
+align-items: center;
+justify-content: center;
+font-family: ‘Bebas Neue’, ‘Arial Black’, Impact, sans-serif;
+font-size: 36px;
+letter-spacing: 8px;
+color: #00bfa5;
+}
+
+.box-front {
+background: linear-gradient(160deg, #0f2030, #071520);
+border: 1px solid rgba(74,138,181,0.2);
+transform: translateZ(100px);
+padding: 24px;
+display: flex;
+flex-direction: column;
+gap: 8px;
+}
+
+.box-side {
+background: linear-gradient(160deg, #071520, #040e18);
+border: 1px solid rgba(74,138,181,0.1);
+transform: rotateY(-90deg) translateZ(100px);
+}
+
+.box-label {
+background: #f5f3ee;
+padding: 6px 8px;
+margin-bottom: 8px;
+}
+
+.box-label-text {
+font-family: ‘DM Mono’, ‘Courier New’, Courier, monospace;
+font-size: 7px;
+letter-spacing: 1px;
+color: #0a0a0a;
+text-transform: uppercase;
+}
+
+.box-label-big {
+font-family: ‘Bebas Neue’, ‘Arial Black’, Impact, sans-serif;
+font-size: 18px;
+letter-spacing: 3px;
+color: #0a0a0a;
+}
+
+.temp-badge {
+display: inline-flex;
+align-items: center;
+gap: 4px;
+background: rgba(0,194,168,0.15);
+border: 1px solid rgba(0,194,168,0.3);
+padding: 4px 8px;
+width: fit-content;
+}
+
+.temp-dot {
+width: 6px;
+height: 6px;
+background: #00bfa5;
+border-radius: 50%;
+animation: pulse 2s ease-in-out infinite;
+}
+
+.temp-text {
+font-family: ‘DM Mono’, ‘Courier New’, Courier, monospace;
+font-size: 8px;
+letter-spacing: 1px;
+color: #00bfa5;
+}
+
+@keyframes pulse {
+0%, 100% { opacity: 1; }
+50% { opacity: 0.3; }
+}
+
+/* Chain links decoration */
+.chain-links {
+position: absolute;
+bottom: -40px;
+left: 50%;
+transform: translateX(-50%);
+display: flex;
+gap: 0;
+align-items: center;
+}
+
+.link {
+width: 28px;
+height: 16px;
+border: 2px solid rgba(0,194,168,0.4);
+border-radius: 8px;
+margin: 0 -6px;
+transform: rotate(0deg);
+}
+
+.link:nth-child(even) {
+transform: rotate(90deg);
+border-color: rgba(74,138,181,0.3);
+}
+
+/* Hero stats strip */
+.hero-stats {
+position: absolute;
+bottom: 0;
+left: 0;
+right: 0;
+border-top: 1px solid rgba(255,255,255,0.06);
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+opacity: 1;
+}
+
+.stat-item {
+padding: 24px 48px;
+border-right: 1px solid rgba(255,255,255,0.06);
+}
+
+.stat-item:last-child { border-right: none; }
+
+.stat-num {
+font-family: ‘Bebas Neue’, ‘Arial Black’, Impact, sans-serif;
+font-size: 42px;
+letter-spacing: 2px;
+color: #00bfa5;
+line-height: 1;
+}
+
+.stat-label {
+font-family: ‘DM Mono’, ‘Courier New’, Courier, monospace;
+font-size: 10px;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: #8a9aaa;
+margin-top: 4px;
+}
+
+/* ── PROBLEM SECTION ── */
+.problem {
+padding: 120px 48px;
+position: relative;
+overflow: hidden;
+}
+
+.problem::before {
+content: ‘RISK’;
+position: absolute;
+font-family: ‘Bebas Neue’, ‘Arial Black’, Impact, sans-serif;
+font-size: 300px;
+color: rgba(232,99,74,0.04);
+top: 50%;
+right: -40px;
+transform: translateY(-50%);
+letter-spacing: -10px;
+pointer-events: none;
+}
+
+.section-tag {
+font-family: ‘DM Mono’, ‘Courier New’, Courier, monospace;
+font-size: 10px;
+letter-spacing: 4px;
+text-transform: uppercase;
+color: #e8634a;
+margin-bottom: 16px;
+}
+
+.section-title {
+font-family: ‘Bebas Neue’, ‘Arial Black’, Impact, sans-serif;
+font-size: clamp(48px, 5vw, 72px);
+line-height: 0.95;
+letter-spacing: 1px;
+max-width: 600px;
+margin-bottom: 48px;
+}
+
+.problem-grid {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 1px;
+background: rgba(255,255,255,0.06);
+border: 1px solid rgba(255,255,255,0.06);
+max-width: 900px;
+}
+
+.problem-item {
+background: #0a0a0a;
+padding: 36px 32px;
+position: relative;
+transition: background 0.3s;
+}
+
+.problem-item:hover {
+background: rgba(232,99,74,0.05);
+}
+
+.problem-num {
+font-family: ‘Bebas Neue’, ‘Arial Black’, Impact, sans-serif;
+font-size: 56px;
+color: rgba(232,99,74,0.2);
+line-height: 1;
+margin-bottom: 12px;
+}
+
+.problem-head {
+font-size: 15px;
+font-weight: 500;
+margin-bottom: 8px;
+color: #f5f3ee;
+}
+
+.problem-body {
+font-size: 13px;
+font-weight: 300;
+line-height: 1.6;
+color: #8a9aaa;
+}
+
+/* ── WHAT’S IN THE BOX ── */
+.box-section {
+padding: 120px 48px;
+background: linear-gradient(180deg, transparent, rgba(10,20,30,0.8), transparent);
+position: relative;
+}
+
+.box-section-inner {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 80px;
+align-items: start;
+}
+
+.box-section .section-tag { color: #00bfa5; }
+
+.items-list {
+margin-top: 48px;
+display: flex;
+flex-direction: column;
+gap: 0;
+}
+
+.kit-item {
+display: grid;
+grid-template-columns: 48px 1fr;
+gap: 20px;
+padding: 24px 0;
+border-bottom: 1px solid rgba(255,255,255,0.06);
+align-items: start;
+transition: all 0.2s;
+}
+
+.kit-item:hover .kit-item-num { color: #00bfa5; }
+
+.kit-item-num {
+font-family: ‘Bebas Neue’, ‘Arial Black’, Impact, sans-serif;
+font-size: 32px;
+color: rgba(255,255,255,0.15);
+line-height: 1;
+transition: color 0.2s;
+}
+
+.kit-item-content {}
+
+.kit-item-name {
+font-size: 15px;
+font-weight: 500;
+margin-bottom: 4px;
+}
+
+.kit-item-desc {
+font-size: 13px;
+font-weight: 300;
+color: #8a9aaa;
+line-height: 1.5;
+}
+
+/* Right side — visual receipt */
+.receipt {
+background: #f5f3ee;
+color: #0a0a0a;
+padding: 0;
+position: sticky;
+top: 120px;
+font-family: ‘DM Mono’, ‘Courier New’, Courier, monospace;
+}
+
+.receipt-header {
+background: #0a0a0a;
+color: #00bfa5;
+padding: 20px 28px;
+font-family: ‘Bebas Neue’, ‘Arial Black’, Impact, sans-serif;
+font-size: 24px;
+letter-spacing: 6px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+.receipt-badge {
+font-family: ‘DM Mono’, ‘Courier New’, Courier, monospace;
+font-size: 9px;
+letter-spacing: 1px;
+background: #00bfa5;
+color: #0a0a0a;
+padding: 4px 8px;
+}
+
+.receipt-body {
+padding: 28px;
+}
+
+.receipt-row {
+display: flex;
+justify-content: space-between;
+align-items: flex-start;
+padding: 10px 0;
+border-bottom: 1px dashed rgba(0,0,0,0.1);
+font-size: 11px;
+letter-spacing: 0.5px;
+}
+
+.receipt-row:last-child { border-bottom: none; }
+
+.receipt-item { color: #333; }
+.receipt-detail { color: #888; font-size: 10px; margin-top: 2px; }
+.receipt-price { color: #0a0a0a; font-weight: 500; white-space: nowrap; margin-left: 16px; }
+
+.receipt-divider {
+border: none;
+border-top: 2px solid #0a0a0a;
+margin: 16px 0;
+}
+
+.receipt-total-row {
+display: flex;
+justify-content: space-between;
+align-items: center;
+font-size: 13px;
+font-weight: 500;
+margin-top: 8px;
+}
+
+.receipt-total-price {
+font-family: ‘Bebas Neue’, ‘Arial Black’, Impact, sans-serif;
+font-size: 32px;
+letter-spacing: 2px;
+color: #0a0a0a;
+}
+
+.receipt-sub {
+font-size: 9px;
+color: #888;
+margin-top: 4px;
+text-align: right;
+letter-spacing: 1px;
+text-transform: uppercase;
+}
+
+.receipt-cta {
+display: block;
+background: #0a0a0a;
+color: #00bfa5;
+text-align: center;
+padding: 18px;
+font-family: ‘Bebas Neue’, ‘Arial Black’, Impact, sans-serif;
+font-size: 20px;
+letter-spacing: 4px;
+text-decoration: none;
+margin-top: 24px;
+transition: all 0.2s;
+}
+
+.receipt-cta:hover {
+background: #00bfa5;
+color: #0a0a0a;
+}
+
+/* ── HOW IT WORKS ── */
+.how {
+padding: 120px 48px;
+position: relative;
+}
+
+.how .section-tag { color: #4a8ab5; }
+
+.steps {
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+gap: 0;
+margin-top: 64px;
+position: relative;
+}
+
+.steps::before {
+content: ‘’;
+position: absolute;
+top: 32px;
+left: 10%;
+right: 10%;
+height: 1px;
+background: linear-gradient(90deg, transparent, #4a8ab5, #00bfa5, #4a8ab5, transparent);
+opacity: 0.3;
+}
+
+.step {
+padding: 0 32px;
+position: relative;
+}
+
+.step-dot {
+width: 16px;
+height: 16px;
+border: 2px solid #4a8ab5;
+border-radius: 50%;
+margin-bottom: 32px;
+background: #0a0a0a;
+position: relative;
+z-index: 1;
+transition: all 0.3s;
+}
+
+.step:hover .step-dot {
+background: #00bfa5;
+border-color: #00bfa5;
+box-shadow: 0 0 20px rgba(0,194,168,0.4);
+}
+
+.step-num {
+font-family: ‘Bebas Neue’, ‘Arial Black’, Impact, sans-serif;
+font-size: 72px;
+color: rgba(255,255,255,0.04);
+line-height: 1;
+margin-bottom: -16px;
+}
+
+.step-title {
+font-size: 16px;
+font-weight: 500;
+margin-bottom: 8px;
+color: #f5f3ee;
+}
+
+.step-desc {
+font-size: 13px;
+font-weight: 300;
+color: #8a9aaa;
+line-height: 1.6;
+}
+
+/* ── COMPLIANCE STRIP ── */
+.compliance {
+border-top: 1px solid rgba(255,255,255,0.06);
+border-bottom: 1px solid rgba(255,255,255,0.06);
+padding: 80px 48px;
+background: rgba(0,194,168,0.03);
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 80px;
+align-items: center;
+}
+
+.compliance-left .section-tag { color: #00bfa5; }
+
+.compliance-left p {
+font-size: 16px;
+font-weight: 300;
+line-height: 1.7;
+color: #b8d4e8;
+margin-top: 24px;
+max-width: 480px;
+}
+
+.compliance-right {
+display: flex;
+flex-direction: column;
+gap: 16px;
+}
+
+.check-row {
+display: flex;
+align-items: flex-start;
+gap: 16px;
+padding: 16px 20px;
+border: 1px solid rgba(255,255,255,0.06);
+transition: border-color 0.2s;
+}
+
+.check-row:hover { border-color: rgba(0,194,168,0.3); }
+
+.check-icon {
+width: 20px;
+height: 20px;
+background: rgba(0,194,168,0.15);
+border: 1px solid #00bfa5;
+display: flex;
+align-items: center;
+justify-content: center;
+flex-shrink: 0;
+font-size: 10px;
+color: #00bfa5;
+margin-top: 1px;
+}
+
+.check-text {
+font-size: 14px;
+font-weight: 300;
+line-height: 1.5;
+color: #b8d4e8;
+}
+
+.check-text strong {
+color: #f5f3ee;
+font-weight: 500;
+display: block;
+margin-bottom: 2px;
+}
+
+/* ── PRICING ── */
+.pricing {
+padding: 120px 48px;
+position: relative;
+overflow: hidden;
+}
+
+.pricing::before {
+content: ‘CHAIN’;
+position: absolute;
+font-family: ‘Bebas Neue’, ‘Arial Black’, Impact, sans-serif;
+font-size: 400px;
+color: rgba(255,255,255,0.02);
+bottom: -80px;
+left: -40px;
+letter-spacing: -20px;
+pointer-events: none;
+}
+
+.pricing .section-tag { color: #00bfa5; }
+
+.pricing-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 1px;
+background: rgba(255,255,255,0.06);
+border: 1px solid rgba(255,255,255,0.06);
+max-width: 800px;
+margin-top: 64px;
+position: relative;
+z-index: 1;
+}
+
+.pricing-card {
+background: #0a0a0a;
+padding: 48px 40px;
+position: relative;
+transition: background 0.3s;
+}
+
+.pricing-card:hover { background: rgba(0,194,168,0.04); }
+
+.pricing-card.featured {
+background: rgba(0,194,168,0.06);
+border: 1px solid rgba(0,194,168,0.2);
+margin: -1px;
+}
+
+.pricing-tag {
+font-family: ‘DM Mono’, ‘Courier New’, Courier, monospace;
+font-size: 9px;
+letter-spacing: 3px;
+text-transform: uppercase;
+color: #00bfa5;
+background: rgba(0,194,168,0.15);
+padding: 4px 10px;
+display: inline-block;
+margin-bottom: 24px;
+}
+
+.pricing-name {
+font-family: ‘Bebas Neue’, ‘Arial Black’, Impact, sans-serif;
+font-size: 36px;
+letter-spacing: 3px;
+color: #f5f3ee;
+margin-bottom: 8px;
+}
+
+.pricing-price {
+font-family: ‘Bebas Neue’, ‘Arial Black’, Impact, sans-serif;
+font-size: 72px;
+letter-spacing: 2px;
+color: #00bfa5;
+line-height: 1;
+}
+
+.pricing-period {
+font-family: ‘DM Mono’, ‘Courier New’, Courier, monospace;
+font-size: 11px;
+color: #8a9aaa;
+letter-spacing: 1px;
+margin-bottom: 32px;
+}
+
+.pricing-desc {
+font-size: 14px;
+font-weight: 300;
+color: #8a9aaa;
+line-height: 1.6;
+margin-bottom: 32px;
+}
+
+.pricing-features {
+list-style: none;
+display: flex;
+flex-direction: column;
+gap: 10px;
+margin-bottom: 40px;
+}
+
+.pricing-features li {
+font-family: ‘DM Mono’, ‘Courier New’, Courier, monospace;
+font-size: 11px;
+letter-spacing: 0.5px;
+color: #b8d4e8;
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+.pricing-features li::before {
+content: ‘→’;
+color: #00bfa5;
+font-size: 10px;
+}
+
+.pricing-btn {
+display: block;
+text-align: center;
+padding: 14px 24px;
+font-family: ‘DM Mono’, ‘Courier New’, Courier, monospace;
+font-size: 11px;
+letter-spacing: 2px;
+text-transform: uppercase;
+text-decoration: none;
+transition: all 0.2s;
+}
+
+.pricing-btn.outline {
+border: 1px solid rgba(255,255,255,0.2);
+color: #f5f3ee;
+}
+
+.pricing-btn.outline:hover {
+border-color: #00bfa5;
+color: #00bfa5;
+}
+
+.pricing-btn.solid {
+background: #00bfa5;
+color: #0a0a0a;
+}
+
+.pricing-btn.solid:hover {
+background: #f5f3ee;
+transform: translate(-2px, -2px);
+box-shadow: 4px 4px 0 #00bfa5;
+}
+
+/* ── FINAL CTA ── */
+.final-cta {
+padding: 120px 48px;
+text-align: center;
+border-top: 1px solid rgba(255,255,255,0.06);
+position: relative;
+overflow: hidden;
+}
+
+.final-cta::before {
+content: ‘’;
+position: absolute;
+width: 600px;
+height: 600px;
+background: radial-gradient(circle, rgba(0,194,168,0.08) 0%, transparent 70%);
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+pointer-events: none;
+}
+
+.final-cta .section-tag { color: #00bfa5; margin-bottom: 24px; }
+
+.final-title {
+font-family: ‘Bebas Neue’, ‘Arial Black’, Impact, sans-serif;
+font-size: clamp(60px, 7vw, 100px);
+line-height: 0.95;
+letter-spacing: 2px;
+margin-bottom: 24px;
+position: relative;
+z-index: 1;
+}
+
+.final-sub {
+font-size: 16px;
+font-weight: 300;
+color: #8a9aaa;
+max-width: 480px;
+margin: 0 auto 48px;
+line-height: 1.6;
+position: relative;
+z-index: 1;
+}
+
+.final-actions {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 24px;
+position: relative;
+z-index: 1;
+}
+
+/* ── FOOTER ── */
+footer {
+padding: 40px 48px;
+border-top: 1px solid rgba(255,255,255,0.06);
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+
+.footer-logo {
+font-family: ‘Bebas Neue’, ‘Arial Black’, Impact, sans-serif;
+font-size: 20px;
+letter-spacing: 5px;
+color: rgba(255,255,255,0.3);
+}
+
+.footer-mono {
+font-family: ‘DM Mono’, ‘Courier New’, Courier, monospace;
+font-size: 10px;
+letter-spacing: 2px;
+color: rgba(255,255,255,0.2);
+text-transform: uppercase;
+}
+
+/* ── TICKER ── */
+.ticker {
+background: #00bfa5;
+max-width: 100vw;
+padding: 10px 0;
+overflow: hidden;
+white-space: nowrap;
+}
+
+.ticker-inner {
+display: inline-flex;
+gap: 48px;
+animation: ticker 20s linear infinite;
+}
+
+.ticker-item {
+font-family: ‘DM Mono’, ‘Courier New’, Courier, monospace;
+font-size: 11px;
+letter-spacing: 2px;
+color: #0a0a0a;
+text-transform: uppercase;
+display: flex;
+align-items: center;
+gap: 12px;
+}
+
+.ticker-dot {
+width: 4px;
+height: 4px;
+background: #0a0a0a;
+border-radius: 50%;
+opacity: 0.4;
+}
+
+@keyframes ticker {
+from { transform: translateX(0); }
+to { transform: translateX(-50%); }
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(24px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+from { opacity: 0; }
+to { opacity: 1; }
+}
+
+/* ── SCROLL ANIMATIONS ── */
+.reveal {
+opacity: 0;
+transform: translateY(32px);
+transition: all 0.7s ease;
+}
+
+.reveal.visible {
+opacity: 1;
+transform: translateY(0);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+nav { padding: 20px 24px; }
+.hero { grid-template-columns: 1fr; }
+.hero-right { display: none; }
+.hero-left { padding: 140px 24px 100px; }
+.hero-stats { grid-template-columns: repeat(3, 1fr); }
+.stat-item { padding: 20px 24px; }
+.problem, .box-section, .how, .compliance, .pricing, .final-cta { padding: 80px 24px; }
+.problem-grid { grid-template-columns: 1fr; }
+.box-section-inner { grid-template-columns: 1fr; }
+.steps { grid-template-columns: 1fr 1fr; gap: 40px; }
+.steps::before { display: none; }
+.compliance { grid-template-columns: 1fr; gap: 40px; }
+.pricing-grid { grid-template-columns: 1fr; }
+footer { flex-direction: column; gap: 16px; text-align: center; }
+}
+</style>
+
+<script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog && window.posthog.__loaded)||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="Ir Sr init jr $r Ci qr Hr Dr capture calculateEventProperties Wr register register_once register_for_session unregister unregister_for_session Qr getFeatureFlag getFeatureFlagPayload getFeatureFlagResult isFeatureEnabled reloadFeatureFlags updateFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey displaySurvey cancelPendingSurvey canRenderSurvey canRenderSurveyAsync tn identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset setIdentity clearIdentity get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException captureLog startExceptionAutocapture stopExceptionAutocapture loadToolbar get_property getSessionProperty Jr Yr createPersonProfile setInternalOrTestUser Kr Pr nn opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing get_explicit_consent_status is_capturing clear_opt_in_out_capturing zr debug ki Xr getPageViewId captureTraceFeedback captureTraceMetric Mr".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_pavUkqvTyTFzfUzmkZHXZm8YncYd7L3ywnUGB5APSXg5', {
+        api_host: 'https://us.i.posthog.com',
+        defaults: '2026-01-30',
+        person_profiles: 'identified_only',
+    })
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Track all order/CTA button clicks
+    document.querySelectorAll('a[href*="tally.so"]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        posthog.capture('order_button_clicked', {
+          button_text: btn.innerText.trim(),
+          button_location: btn.closest('section') ? btn.closest('section').className : 'nav'
+        });
+      });
+    });
+
+    // Track scroll depth
+    var scrollMilestones = [25, 50, 75, 100];
+    var fired = {};
+    window.addEventListener('scroll', function() {
+      var scrollPct = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+      scrollMilestones.forEach(function(m) {
+        if (scrollPct >= m && !fired[m]) {
+          fired[m] = true;
+          posthog.capture('scroll_depth', { depth_percent: m });
+        }
+      });
+    });
+  });
+</script>
+
+</head>
+<body>
+
+<!-- NAV -->
+
+<nav>
+  <a href="https://tally.so/r/GxBaqZ" class="nav-logo">CH<span>AI</span>N</a>
+  <a href="https://tally.so/r/GxBaqZ" class="nav-cta">Order Now</a>
+</nav>
+
+<!-- TICKER -->
+
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ticker-item">Cold Chain Compliance <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Chain of Custody Documentation <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Peptide Clinic Ready <span class="ticker-dot"></span></span>
+    <span class="ticker-item">FDA Audit Trail <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Receiving Protocols <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Staff Training Records <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Vendor Qualification <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Cold Chain Compliance <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Chain of Custody Documentation <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Peptide Clinic Ready <span class="ticker-dot"></span></span>
+    <span class="ticker-item">FDA Audit Trail <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Receiving Protocols <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Staff Training Records <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Vendor Qualification <span class="ticker-dot"></span></span>
+  </div>
+</div>
+
+<!-- HERO -->
+
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">For Clinics Receiving from Compounding Pharmacies</p>
+    <h1 class="hero-title">
+      Every<br>step,<br><span class="accent-line">documented.</span>
+    </h1>
+    <p class="hero-sub">
+      Your compounding pharmacy ships the peptides. CHAIN documents what happens next — every shipment received, every lot number logged, every temperature checked. Built for functional medicine clinics, med spas, and peptide practices.
+    </p>
+    <div class="hero-actions">
+      <a href="https://tally.so/r/GxBaqZ" class="btn-primary">Get the Kit</a>
+      <a href="#whats-inside" class="btn-ghost">See what's inside →</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-bg-glow"></div>
+    <div class="kit-visual">
+      <div style="perspective: 800px; display: flex; align-items: center; justify-content: center; padding: 60px;">
+        <div class="iso-box">
+          <div class="box-face box-top">CHAIN</div>
+          <div class="box-face box-front">
+            <div class="box-label">
+              <div class="box-label-text">Peptide Compliance Kit</div>
+              <div class="box-label-big">CHAIN</div>
+            </div>
+            <div class="temp-badge">
+              <div class="temp-dot"></div>
+              <span class="temp-text">2–8°C MONITORED</span>
+            </div>
+          </div>
+          <div class="box-face box-side"></div>
+        </div>
+      </div>
+      <div class="chain-links">
+        <div class="link"></div>
+        <div class="link"></div>
+        <div class="link"></div>
+        <div class="link"></div>
+        <div class="link"></div>
+        <div class="link"></div>
+        <div class="link"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">48K+</div>
+      <div class="stat-label">Med Spas in the US</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">2026</div>
+      <div class="stat-label">FDA Enforcement Active</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">$0</div>
+      <div class="stat-label">Cost of an Audit Trail</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+
+<section class="problem">
+  <div class="reveal">
+    <p class="section-tag">// The Problem</p>
+    <h2 class="section-title">Your peptides arrive. Now what?</h2>
+  </div>
+  <div class="problem-grid reveal">
+    <div class="problem-item">
+      <div class="problem-num">01</div>
+      <div class="problem-head">No receiving protocol</div>
+      <div class="problem-body">The FedEx box lands at the front desk. Nobody checks the temperature indicator. No lot number gets logged. It goes straight in the fridge.</div>
+    </div>
+    <div class="problem-item">
+      <div class="problem-num">02</div>
+      <div class="problem-head">No documentation trail</div>
+      <div class="problem-body">When an auditor asks for chain-of-custody records, you're piecing together emails and sticky notes. That's not a compliance posture. That's a liability.</div>
+    </div>
+    <div class="problem-item">
+      <div class="problem-num">03</div>
+      <div class="problem-head">No trained staff process</div>
+      <div class="problem-body">Your front desk isn't a pharmacist. Without a laminated card and a simple form, every shipment is handled differently by whoever happens to be working.</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT'S INSIDE -->
+
+<section class="box-section" id="whats-inside">
+  <div class="box-section-inner">
+    <div>
+      <div class="reveal">
+        <p class="section-tag">// What's Inside</p>
+        <h2 class="section-title">The complete clinic kit</h2>
+      </div>
+      <div class="items-list">
+        <div class="kit-item reveal">
+          <div class="kit-item-num">01</div>
+          <div class="kit-item-content">
+            <div class="kit-item-name">Pre-Qualified Insulated Shipper</div>
+            <div class="kit-item-desc">Validated 2–8°C cold box with gel pack slots. Sized for standard compounding pharmacy shipments. Reusable.</div>
+          </div>
+        </div>
+        <div class="kit-item reveal">
+          <div class="kit-item-num">02</div>
+          <div class="kit-item-content">
+            <div class="kit-item-name">Temperature Indicator Cards (30-pack)</div>
+            <div class="kit-item-desc">Single-use cards that permanently log any excursion above 8°C. One per incoming shipment. Pass/fail at a glance.</div>
+          </div>
+        </div>
+        <div class="kit-item reveal">
+          <div class="kit-item-num">03</div>
+          <div class="kit-item-content">
+            <div class="kit-item-name">Chain-of-Custody Labels (50-pack)</div>
+            <div class="kit-item-desc">Pre-printed fields for lot number, expiration date, receiving staff, temperature status, and storage location.</div>
+          </div>
+        </div>
+        <div class="kit-item reveal">
+          <div class="kit-item-num">04</div>
+          <div class="kit-item-content">
+            <div class="kit-item-name">CHAIN SOP Binder</div>
+            <div class="kit-item-desc">Six-tab laminated binder: Receiving Checklist, Storage Reference, Dispatch Log, Vendor Qualification, Staff Sign-Off, and Incident Log. Your clinic's name on the cover.</div>
+          </div>
+        </div>
+        <div class="kit-item reveal">
+          <div class="kit-item-num">05</div>
+          <div class="kit-item-content">
+            <div class="kit-item-name">Peptide Storage Reference Card</div>
+            <div class="kit-item-desc">Laminated desk card. 20 most-prescribed peptides. Storage temp, reconstitution shelf life, light sensitivity. Magnetic backing for the fridge door.</div>
+          </div>
+        </div>
+        <div class="kit-item reveal">
+          <div class="kit-item-num">06</div>
+          <div class="kit-item-content">
+            <div class="kit-item-name">Patient Dispatch Bags (30-pack)</div>
+            <div class="kit-item-desc">Insulated last-mile bags for clinic-to-patient handoff. Same label format as receiving. Closes the documentation loop.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+```
+<div class="reveal">
+  <div class="receipt">
+    <div class="receipt-header">
+      CHAIN KIT <span class="receipt-badge">STARTER</span>
+    </div>
+    <div class="receipt-body">
+      <div class="receipt-row">
+        <div>
+          <div class="receipt-item">Insulated Shipper Box</div>
+          <div class="receipt-detail">Validated 2–8°C, reusable</div>
+        </div>
+        <div class="receipt-price">✓</div>
+      </div>
+      <div class="receipt-row">
+        <div>
+          <div class="receipt-item">Temp Indicator Cards</div>
+          <div class="receipt-detail">30-pack, single use</div>
+        </div>
+        <div class="receipt-price">✓</div>
+      </div>
+      <div class="receipt-row">
+        <div>
+          <div class="receipt-item">Chain-of-Custody Labels</div>
+          <div class="receipt-detail">50-pack, pre-printed fields</div>
+        </div>
+        <div class="receipt-price">✓</div>
+      </div>
+      <div class="receipt-row">
+        <div>
+          <div class="receipt-item">SOP Binder</div>
+          <div class="receipt-detail">Custom clinic name, 6 tabs</div>
+        </div>
+        <div class="receipt-price">✓</div>
+      </div>
+      <div class="receipt-row">
+        <div>
+          <div class="receipt-item">Storage Reference Card</div>
+          <div class="receipt-detail">Laminated, magnetic</div>
+        </div>
+        <div class="receipt-price">✓</div>
+      </div>
+      <div class="receipt-row">
+        <div>
+          <div class="receipt-item">Patient Dispatch Bags</div>
+          <div class="receipt-detail">30-pack insulated</div>
+        </div>
+        <div class="receipt-price">✓</div>
+      </div>
+      <hr class="receipt-divider">
+      <div class="receipt-total-row">
+        <span>One-Time Starter Kit</span>
+        <div>
+          <div class="receipt-total-price">$249</div>
+          <div class="receipt-sub">Ships in 3–5 business days</div>
+        </div>
+      </div>
+      <a href="https://tally.so/r/GxBaqZ" class="receipt-cta">ORDER NOW →</a>
+    </div>
+  </div>
+</div>
+```
+
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+
+<section class="how">
+  <div class="reveal">
+    <p class="section-tag">// How It Works</p>
+    <h2 class="section-title">Up and running in one afternoon</h2>
+  </div>
+  <div class="steps">
+    <div class="step reveal">
+      <div class="step-dot"></div>
+      <div class="step-num">01</div>
+      <div class="step-title">Order your kit</div>
+      <div class="step-desc">Enter your clinic name. We print your SOP binder cover and ship everything within 3–5 business days.</div>
+    </div>
+    <div class="step reveal">
+      <div class="step-dot"></div>
+      <div class="step-num">02</div>
+      <div class="step-title">Set it up</div>
+      <div class="step-desc">Binder on the shelf. Storage card on the fridge. Labels and indicators in the supply drawer. Done. Seriously.</div>
+    </div>
+    <div class="step reveal">
+      <div class="step-dot"></div>
+      <div class="step-num">03</div>
+      <div class="step-title">Train your staff</div>
+      <div class="step-desc">Tab 5 of the binder is a sign-off sheet. Walk your team through the receiving checklist. 20 minutes, one time.</div>
+    </div>
+    <div class="step reveal">
+      <div class="step-dot"></div>
+      <div class="step-num">04</div>
+      <div class="step-title">Ship stays done</div>
+      <div class="step-desc">Subscribe to monthly replenishment. Labels, cards, and dispatch bags refilled automatically. The binder stays forever.</div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPLIANCE -->
+
+<section class="compliance">
+  <div class="compliance-left reveal">
+    <p class="section-tag">// Why It Matters Now</p>
+    <h2 class="section-title" style="font-family: 'Bebas Neue'; font-size: 52px; line-height: 0.95; letter-spacing: 1px;">The FDA isn't waiting. Neither should you.</h2>
+    <p>In 2026, enforcement pressure on peptide clinics is accelerating. Payment processors are freezing accounts. Auditors are asking for documentation that most clinics simply don't have. CHAIN exists so that when someone asks, you have an answer.</p>
+  </div>
+  <div class="compliance-right reveal">
+    <div class="check-row">
+      <div class="check-icon">✓</div>
+      <div class="check-text">
+        <strong>Receiving documentation</strong>
+        Proves every shipment was inspected, logged, and within temperature spec on arrival.
+      </div>
+    </div>
+    <div class="check-row">
+      <div class="check-icon">✓</div>
+      <div class="check-text">
+        <strong>Vendor qualification trail</strong>
+        Shows you vetted your compounding pharmacy before dispensing to patients.
+      </div>
+    </div>
+    <div class="check-row">
+      <div class="check-icon">✓</div>
+      <div class="check-text">
+        <strong>Staff training records</strong>
+        Signed and dated log showing your team was trained on handling protocols.
+      </div>
+    </div>
+    <div class="check-row">
+      <div class="check-icon">✓</div>
+      <div class="check-text">
+        <strong>Incident log</strong>
+        Documents any excursion, damage, or expired product — the paper trail that shows you caught it.
+      </div>
+    </div>
+    <div class="check-row">
+      <div class="check-icon">✓</div>
+      <div class="check-text">
+        <strong>Chain-of-custody from door to patient</strong>
+        Lot number tracked from compounding pharmacy all the way to patient dispatch.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+
+<section class="pricing" id="order">
+  <div class="reveal">
+    <p class="section-tag">// Pricing</p>
+    <h2 class="section-title">Simple. No surprises.</h2>
+  </div>
+  <div class="pricing-grid reveal">
+    <div class="pricing-card">
+      <div class="pricing-name">Starter Kit</div>
+      <div class="pricing-price">$249</div>
+      <div class="pricing-period">one-time purchase</div>
+      <div class="pricing-desc">Everything you need to stand up a compliant peptide receiving and storage operation. Ships once, lasts indefinitely.</div>
+      <ul class="pricing-features">
+        <li>Insulated shipper box (reusable)</li>
+        <li>SOP binder — your clinic name on cover</li>
+        <li>Laminated storage reference card</li>
+        <li>30 temperature indicator cards</li>
+        <li>50 chain-of-custody labels</li>
+        <li>30 patient dispatch bags</li>
+      </ul>
+      <a href="https://tally.so/r/GxBaqZ" class="pricing-btn outline">Order Starter Kit →</a>
+    </div>
+    <div class="pricing-card featured">
+      <div class="pricing-tag">Most Popular</div>
+      <div class="pricing-name">Starter + Monthly</div>
+      <div class="pricing-price">$129</div>
+      <div class="pricing-period">/month after starter kit</div>
+      <div class="pricing-desc">The starter kit ships first. Then monthly replenishment keeps your consumables stocked automatically. Never run out mid-shipment.</div>
+      <ul class="pricing-features">
+        <li>Everything in Starter Kit</li>
+        <li>30 temperature cards / month</li>
+        <li>50 chain-of-custody labels / month</li>
+        <li>30 patient dispatch bags / month</li>
+        <li>Updated storage reference cards as new peptides are approved</li>
+        <li>Cancel any time</li>
+      </ul>
+      <a href="https://tally.so/r/GxBaqZ" class="pricing-btn solid">Start with This →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+
+<section class="final-cta">
+  <p class="section-tag">// Get Started</p>
+  <h2 class="final-title">Your clinic.<br>Documented.</h2>
+  <p class="final-sub">Takes one afternoon to set up. Takes zero effort to maintain. Takes the compliance question off your plate permanently.</p>
+  <div class="final-actions">
+    <a href="https://tally.so/r/GxBaqZ" class="btn-primary">Order the Kit — $249</a>
+    <a href="mailto:hello@getchainkit.com" class="btn-ghost">Questions? hello@getchainkit.com →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+  <div class="footer-logo">CHAIN</div>
+  <div class="footer-mono">Cold Chain Compliance for Peptide Clinics</div>
+  <div class="footer-mono">getchainkit.com — © 2026 Chain Compliance LLC</div>
+</footer>
+  <div style="background:#0a0a0a; border-top: 1px solid rgba(255,255,255,0.04); padding: 24px 48px; text-align: center;">
+    <p style="font-family: 'DM Mono', 'Courier New', Courier, monospace; font-size: 10px; letter-spacing: 1px; color: rgba(255,255,255,0.2); line-height: 1.7; max-width: 700px; margin: 0 auto;">
+      DISCLAIMER: CHAIN compliance kits are organizational and documentation tools only. Purchase of any CHAIN product does not constitute legal or regulatory advice, does not guarantee compliance with FDA regulations, state laws, or any other applicable rules, and does not protect against enforcement action. CHAIN is not a law firm and is not affiliated with any regulatory body. Consult a qualified attorney or compliance professional regarding your specific legal obligations.
+    </p>
+  </div>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  reveals.forEach(el => observer.observe(el));
+
+  // Stagger sibling reveals
+  document.querySelectorAll('.problem-grid, .items-list, .steps, .compliance-right').forEach(parent => {
+    const children = parent.querySelectorAll('.reveal');
+    children.forEach((child, i) => {
+      child.style.transitionDelay = `${i * 0.1}s`;
+    });
+  });
+</script>
+
+</body>
+</html>
